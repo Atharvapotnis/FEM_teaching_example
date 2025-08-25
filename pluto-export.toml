@@ -1,21 +1,24 @@
-# pluto-export.toml  (for PlutoSliderServer v1.5.0)
-
 [Export]
 enabled = true
 
-# Where to write the static site:
+# Where the static site will go
 output_dir = "docs"
 
-# Cache behavior:
-ignore_cache = false          # use cache if present (faster)
+# Cache settings
+ignore_cache = false
 cache_dir = ".pluto_export_cache"
 
-# Bake (precompute) all cell outputs into the HTML:
+# Bake notebook state into the HTML
 baked_state = true
 
-# Optional niceties:
-disable_ui = true             # hide Pluto's UI chrome in exported pages
-exclude = []                  # e.g. ["notebooks/drafts/*"] if needed
+# This MUST be a Bool (true/false), not a list
+baked_notebookfile = true
+
+# Optional: hide Pluto’s sidebar UI in the export
+disable_ui = true
+
+# Optional: nothing excluded
+exclude = []
 
 [SliderServer]
 enabled = false

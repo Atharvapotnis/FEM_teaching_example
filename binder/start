@@ -1,2 +1,9 @@
 #!/bin/bash
+set -e
+
+# match the version used in postBuild
+JVER=1.10.5
+export PATH="$HOME/julia-$JVER/bin:$PATH"
+
+# start Pluto
 exec julia -e 'using Pluto; Pluto.run(host="0.0.0.0", port=8888, require_secret_for_open_links=false, require_secret_for_access=false)'

@@ -1,0 +1,46 @@
+name: build-pluto
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Julia
+        uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.10'
+
+      - name: Install exporter deps
+        run: julia -e 'using Pkg; Pkg.add(["Pluto","PlutoSliderServer"])'
+
+      # Optional: clean build (uncomment to force a full re-bake)
+      # - run: rm -rf .pluto_export_cache
+
+      - name: Export notebooks to static site
+        run: julia -e 'using PlutoSliderServer; PlutoSliderServer.export_directory("notebooks"; config_toml_path="pluto-export.toml")'
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -11,8 +11,8 @@ cache_dir = ".pluto_export_cache"
 # Bake notebook state into the HTML
 baked_state = true
 
-# MUST be a list of notebook files to bake
-baked_notebookfile = ["notebooks/index.jl"]
+# This is just true/false now
+baked_notebookfile = true
 
 # Optional: hide Pluto’s sidebar UI in the export
 disable_ui = true

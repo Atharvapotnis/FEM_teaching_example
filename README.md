@@ -1,1 +1,1 @@
-[![launch binder](https://binder.plutojl.org/badge_logo.svg)](https://binder.plutojl.org/latest/open?url=https://raw.githubusercontent.com/Atharvapotnis/FEM_teaching_example/main/Shape_functions.jl)
+[![Launch Pluto](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Atharvapotnis/FEM_teaching_example/HEAD?urlpath=pluto/open?path=Shape_functions.jl)

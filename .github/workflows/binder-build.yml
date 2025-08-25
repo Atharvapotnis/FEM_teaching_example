@@ -1,0 +1,17 @@
+name: Prebuild Binder
+
+# Run this workflow every time you push to the main branch
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Binder image with repo2docker
+        uses: jupyterhub/repo2docker-action@v1
+        with:
+          NO_PUSH: true

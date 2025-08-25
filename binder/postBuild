@@ -1,20 +1,14 @@
 #!/bin/bash
 set -e
 
-# pick a stable  Julia version
 JVER=1.10.5
 JDIR="$HOME/julia-$JVER"
 
-# install Julia into $HOME if not already there
 if [ ! -x "$JDIR/bin/julia" ]; then
   echo ">> Installing Julia $JVER to $JDIR"
-  curl -L "https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-$JVER-linux-x86_64.tar.gz" \
-    | tar -xz -C "$HOME"
+  curl -L "https://julialang-s3.julialang.org/bin/linux/x64/1.10/julia-$JVER-linux-x86_64.tar.gz" | tar -xz -C "$HOME"
 fi
 
-# make sure this Julia is on PATH for subsequent steps in the image build
 export PATH="$JDIR/bin:$PATH"
-
-# pre-instantiate & precompile your project at repo root
 echo ">> Instantiating & precompiling Julia project"
 julia -e 'using Pkg; Pkg.activate("."); Pkg.instantiate(); Pkg.precompile()'

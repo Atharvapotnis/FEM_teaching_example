@@ -1,5 +1,21 @@
+# pluto-export.toml
+
 [Export]
-out_dir = "docs"          # where the HTML will be written
-precompute = true         # runs cells to bake results in the file
-export_cache = true       # cache speeds up subsequent runs
+# turn export on
+enabled = true
+
+# where to put the generated site (what GitHub Pages will serve)
+output_dir = "docs"
+
+# precompute all cells so the site is fully static
+precompute = true
+
+# optional: keep a cache of computed notebook state between builds (faster CI)
+cache = true
+
+# optional: clear old cache before exporting (good if you change deps often)
 clear_old_cache = true
+
+[SliderServer]
+# we're doing a static export only
+enabled = false

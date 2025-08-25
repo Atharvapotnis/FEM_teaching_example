@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-# pick a stable Julia version
+# pick a stable  Julia version
 JVER=1.10.5
 JDIR="$HOME/julia-$JVER"
 

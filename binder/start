@@ -1,9 +1,24 @@
 #!/bin/bash
-set -e
 
-# match the version used in postBuild
-JVER=1.10.5
-export PATH="$HOME/julia-$JVER/bin:$PATH"
+set -Eeuo pipefail
 
-# start Pluto
-exec julia -e 'using Pluto; Pluto.run(host="0.0.0.0", port=8888, require_secret_for_open_links=false, require_secret_for_access=false)'
+echo ">>> binder/start running..."
+
+# Use the same Julia version we install in postBuild
+JVER="${JVER:-1.10.5}"
+JHOME="$HOME/julia-$JVER"
+export PATH="$JHOME/bin:$PATH"
+
+# Binder routes to 8888; keep it configurable just in case
+PORT="${BINDER_PORT:-8888}"
+
+# Start Pluto (no secret, no browser; Binder will open the URL)
+exec julia --color=yes -e '
+using Pluto
+Pluto.run(
+    host = "0.0.0.0",
+    port = parse(Int, get(ENV, "BINDER_PORT", "8888")),
+    require_secret_for_open_links = false,
+    require_secret_for_access = false,
+    launch_browser = false
+)'

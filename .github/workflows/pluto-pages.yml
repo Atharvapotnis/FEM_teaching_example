@@ -1,0 +1,58 @@
+name: Build & Deploy Pluto site
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: julia-actions/setup-julia@v2
+        with:
+          version: '1.10.1'   # matches the julia_version in your embedded Manifest
+
+      - name: Export notebooks to static HTML
+        shell: bash
+        run: |
+          julia --color=yes -e '
+            using Pkg; Pkg.add("PlutoSliderServer");
+            using PlutoSliderServer;
+            PlutoSliderServer.export_directory(
+              "notebooks";
+              config_toml_path="pluto-export.toml"
+            )'
+
+      - name: Ensure docs/index.html exists
+        run: |
+          if [ -f docs/notebooks/index.html ]; then
+            mv -f docs/notebooks/index.html docs/index.html
+          fi
+          touch docs/.nojekyll
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,5 @@
+[Export]
+out_dir = "docs"          # where the HTML will be written
+precompute = true         # runs cells to bake results in the file
+export_cache = true       # cache speeds up subsequent runs
+clear_old_cache = true

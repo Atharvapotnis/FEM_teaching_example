@@ -12,6 +12,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build Binder image with repo2docker
-        uses: jupyterhub/repo2docker-action@v1
+        uses: jupyterhub/repo2docker-action@main
         with:
           NO_PUSH: true
